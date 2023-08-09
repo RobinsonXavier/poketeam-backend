@@ -1,5 +1,7 @@
+import fetch from 'node-fetch';
+
 export async function getDataInPokeApi(req, res) {
-  const {pokename} = req.body;
+  const { pokename } = req.body;
 
   try {
     const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokename}`);
@@ -8,8 +10,10 @@ export async function getDataInPokeApi(req, res) {
       return res.status(404).send("Pokemon não encontrado.");
     }
 
+    const pokedata = await promise.json();
+
     return res.status(201).send({
-      data: await promise.json(),
+      pokedata,
     });
 
   } catch (error) {
